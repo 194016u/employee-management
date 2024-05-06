@@ -1,6 +1,7 @@
 package com.example.employeemanagement.service;
 
 import com.example.employeemanagement.dto.EmployeeDTO;
+import com.example.employeemanagement.dto.ResponseDTO;
 import com.example.employeemanagement.entity.Employee;
 import com.example.employeemanagement.repo.EmployeeRepo;
 import com.example.employeemanagement.util.VarList;
@@ -8,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,13 +26,28 @@ public class EmployeeService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ResponseDTO responseDTO;
 
-    public String saveEmployee(EmployeeDTO employeeDTO){
-        if (employeeRepo.existsById(employeeDTO.getEmpID())){
-            return VarList.RSP_DUPLICATED;
-        }else {
-            employeeRepo.save(modelMapper.map(employeeDTO, Employee.class));
-            return VarList.RSP_SUCCESS;
+    public ResponseEntity saveEmployee(EmployeeDTO employeeDTO){
+        try{
+            if (employeeRepo.existsById(employeeDTO.getEmpID())) {
+                responseDTO.setCode(VarList.RSP_DUPLICATED);
+                responseDTO.setMessage("Employee Registered");
+                responseDTO.setContent(employeeDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            } else {
+                employeeRepo.save(modelMapper.map(employeeDTO, Employee.class));
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(employeeDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            }
+        }catch (Exception ex){
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     public String updateEmployee(EmployeeDTO employeeDTO){
