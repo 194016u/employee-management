@@ -50,35 +50,70 @@ public class EmployeeService {
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public String updateEmployee(EmployeeDTO employeeDTO){
-        if (employeeRepo.existsById(employeeDTO.getEmpID())){
-            employeeRepo.save(modelMapper.map(employeeDTO, Employee.class));
-            return VarList.RSP_SUCCESS;
 
-        }else {
-            return VarList.RSP_NO_DATA_FOUND;
+    public ResponseEntity updateEmployee(EmployeeDTO employeeDTO){
+        try{
+            if (employeeRepo.existsById(employeeDTO.getEmpID())) {
+                employeeRepo.save(modelMapper.map(employeeDTO, Employee.class));
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(employeeDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+
+            } else {
+                responseDTO.setCode(VarList.RSP_DUPLICATED);
+                responseDTO.setMessage("Not A Registered Employee");
+                responseDTO.setContent(employeeDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception ex){
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
-    public List<EmployeeDTO> getAllEmployee(){
+
+    public ResponseEntity getAllEmployee(){
         List<Employee> employeeList = employeeRepo.findAll();
-        return modelMapper.map(employeeList,new TypeToken<ArrayList<EmployeeDTO>>(){
-        }.getType());
+        responseDTO.setCode(VarList.RSP_SUCCESS);
+        responseDTO.setMessage("Success");
+        responseDTO.setContent(employeeList);
+        return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public EmployeeDTO searchEmployee(int empID){
+    public ResponseEntity searchEmployee(int empID){
         if (employeeRepo.existsById(empID)){
             Employee employee =employeeRepo.findById(empID).orElse(null);
-            return modelMapper.map(employee, EmployeeDTO.class);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(employee);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
         }else {
             return null;
         }
     }
-    public String deleteEmployee(int empID){
-        if (employeeRepo.existsById(empID)){
-            employeeRepo.deleteById(empID);
-            return VarList.RSP_SUCCESS;
-        }else {
-            return VarList.RSP_NO_DATA_FOUND;
+
+    public ResponseEntity deleteEmployee(int empID) {
+        try {
+            if (employeeRepo.existsById(empID)) {
+                employeeRepo.deleteById(empID);
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("No Employee Available For this empID");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(e);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-}
+    }
