@@ -32,5 +32,13 @@ public class ProductController {
         return new ResponseEntity(productService.updateProduct(productDTO),HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/searchProduct/{prodID}")
+    public ResponseEntity searchProduct(@PathVariable int prodID){
+        return productService.searchProduct(prodID);
+    }
+
+
+
+
 
 }

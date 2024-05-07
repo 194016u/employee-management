@@ -80,4 +80,15 @@ public class ProductService {
         }
 
     }
+    public ResponseEntity searchProduct(int productID){
+        if (productRepo.existsById(productID)){
+            Product product =productRepo.findById(productID).orElse(null);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(product);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+        }else {
+            return null;
+        }
+    }
 }
