@@ -56,4 +56,28 @@ public class ProductService {
         }
 
     }
+    public ResponseEntity updateProduct(ProductDTO productDTO){
+        try{
+            if (productRepo.existsById(productDTO.getProdID())) {
+                productRepo.save(modelMapper.map(productDTO, Product.class));
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(productDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+
+            } else {
+                responseDTO.setCode(VarList.RSP_DUPLICATED);
+                responseDTO.setMessage("Not A Registered Product");
+                responseDTO.setContent(productDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception ex){
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
+    }
 }
