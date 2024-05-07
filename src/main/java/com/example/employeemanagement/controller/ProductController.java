@@ -37,6 +37,12 @@ public class ProductController {
         return productService.searchProduct(prodID);
     }
 
+    @DeleteMapping("/deleteProduct/{prodID}")
+    public ResponseEntity deleteProduct(@PathVariable int prodID){
+        ResponseEntity res = productService.deleteProduct(prodID);
+        return new ResponseEntity(res, HttpStatus.BAD_REQUEST);
+    }
+
 
 
 

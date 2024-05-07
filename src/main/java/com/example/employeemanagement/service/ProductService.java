@@ -91,4 +91,26 @@ public class ProductService {
             return null;
         }
     }
+    public ResponseEntity deleteProduct(int prodID) {
+        try {
+            if (productRepo.existsById(prodID)) {
+                productRepo.deleteById(prodID);
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("No Product Available For this prodID");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(e);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
