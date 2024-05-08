@@ -23,11 +23,11 @@ public class CartItemController {
         return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
     }
 
-//    @GetMapping("/getCartItems/{empID}")
-//    public ResponseEntity<ResponseDTO> getCartItems(@PathVariable int empID) {
-//        ResponseDTO responseDTO = cartItemService.getCartItems(empID);
-//        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-//    }
+    @GetMapping("/getCartItems/{empID}")
+    public ResponseEntity<ResponseDTO> getCartItems(@PathVariable int empID) {
+        ResponseDTO responseDTO = cartItemService.getCartItems(empID);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 //
 //    @DeleteMapping("/removeFromCart/{empID}/{prodID}")
 //    public ResponseEntity<ResponseDTO> removeFromCart(@PathVariable int empID, @PathVariable int prodID) {

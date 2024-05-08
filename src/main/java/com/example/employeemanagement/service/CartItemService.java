@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartItemService {
 
@@ -46,6 +48,19 @@ public class CartItemService {
                 responseDTO.setCode(VarList.RSP_ERROR);
                 responseDTO.setMessage("Employee or Product not found");
             }
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+        }
+        return responseDTO;
+    }
+    public ResponseDTO getCartItems(int empID) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            List<CartItem> cartItems = cartItemRepo.findByEmployee_EmpID(empID);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(cartItems);
         } catch (Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
