@@ -67,6 +67,18 @@ public class CartItemService {
         }
         return responseDTO;
     }
+    public ResponseDTO removeFromCart(int empID, int prodID) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            cartItemRepo.deleteByEmployee_EmpIDAndProduct_ProdID(empID, prodID);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Item removed from cart successfully");
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+        }
+        return responseDTO;
+    }
 
 
 }

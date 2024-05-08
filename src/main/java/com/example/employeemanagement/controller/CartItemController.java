@@ -28,11 +28,11 @@ public class CartItemController {
         ResponseDTO responseDTO = cartItemService.getCartItems(empID);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-//
-//    @DeleteMapping("/removeFromCart/{empID}/{prodID}")
-//    public ResponseEntity<ResponseDTO> removeFromCart(@PathVariable int empID, @PathVariable int prodID) {
-//        ResponseDTO responseDTO = cartItemService.removeFromCart(empID, prodID);
-//        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-//    }
+
+    @DeleteMapping("/removeFromCart/{empID}/{prodID}")
+    public ResponseEntity<ResponseDTO> removeFromCart(@PathVariable int empID, @PathVariable int prodID) {
+        ResponseDTO responseDTO = cartItemService.removeFromCart(empID, prodID);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 
 }
