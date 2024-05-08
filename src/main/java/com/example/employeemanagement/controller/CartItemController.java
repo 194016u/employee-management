@@ -3,11 +3,14 @@ package com.example.employeemanagement.controller;
 import com.example.employeemanagement.dto.CartItemDTO;
 import com.example.employeemanagement.dto.ResponseDTO;
 import com.example.employeemanagement.service.CartItemService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/cart")
 public class CartItemController {
@@ -32,6 +35,7 @@ public class CartItemController {
     @DeleteMapping("/removeFromCart/{empID}/{prodID}")
     public ResponseEntity<ResponseDTO> removeFromCart(@PathVariable int empID, @PathVariable int prodID) {
         ResponseDTO responseDTO = cartItemService.removeFromCart(empID, prodID);
+        log.info("Test {} {} {}",empID,prodID,responseDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

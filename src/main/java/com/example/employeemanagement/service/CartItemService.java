@@ -9,12 +9,14 @@ import com.example.employeemanagement.repo.CartItemRepo;
 import com.example.employeemanagement.repo.EmployeeRepo;
 import com.example.employeemanagement.repo.ProductRepo;
 import com.example.employeemanagement.util.VarList;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CartItemService {
 
@@ -71,6 +73,7 @@ public class CartItemService {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
             cartItemRepo.deleteByEmployee_EmpIDAndProduct_ProdID(empID, prodID);
+//            cartItemRepo.deleteById(empID);
             responseDTO.setCode(VarList.RSP_SUCCESS);
             responseDTO.setMessage("Item removed from cart successfully");
         } catch (Exception ex) {
