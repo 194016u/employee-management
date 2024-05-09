@@ -20,6 +20,7 @@ public class CartItemController {
     @Autowired
     private ResponseDTO responseDTO;
 
+    //add product to cart using post request
     @PostMapping("/addToCart")
     public ResponseEntity<ResponseDTO> addToCart(@RequestBody CartItemDTO cartItemDTO) {
         ResponseDTO responseDTO = cartItemService.addToCart(cartItemDTO);
