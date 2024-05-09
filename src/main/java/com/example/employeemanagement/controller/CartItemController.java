@@ -32,7 +32,7 @@ public class CartItemController {
         ResponseDTO responseDTO = cartItemService.getCartItems(empID);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-
+  // delete item in cart
     @DeleteMapping("/removeFromCart/{empID}/{prodID}")
     public ResponseEntity<ResponseDTO> removeFromCart(@PathVariable int empID, @PathVariable int prodID) {
         ResponseDTO responseDTO = cartItemService.removeFromCart(empID, prodID);
