@@ -26,7 +26,7 @@ public class CartItemController {
         ResponseDTO responseDTO = cartItemService.addToCart(cartItemDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
     }
-
+    // get cart item product by emp id
     @GetMapping("/getCartItems/{empID}")
     public ResponseEntity<ResponseDTO> getCartItems(@PathVariable int empID) {
         ResponseDTO responseDTO = cartItemService.getCartItems(empID);
