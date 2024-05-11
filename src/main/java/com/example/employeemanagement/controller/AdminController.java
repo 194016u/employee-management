@@ -7,10 +7,7 @@ import com.example.employeemanagement.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/admin")
@@ -27,8 +24,16 @@ public class AdminController {
         //  ResponseEntity res=adminService.saveAdmin(adminDTO);
         //      return res;
         return new ResponseEntity(adminService.saveAdmin(adminDTO), HttpStatus.ACCEPTED);
-
     }
+    @GetMapping("/getAllAdmins")
+    public ResponseEntity getAllAdmin(){
+        return adminService.getAllAdmin();
+    }
+    @PutMapping(value = "/updateAdmin")
+    public ResponseEntity updateAdmin(@RequestBody AdminDTO adminDTO){
+        return new ResponseEntity(adminService.updateAdmin(adminDTO),HttpStatus.ACCEPTED);
+    }
+
 
 
 }
