@@ -33,7 +33,7 @@ public class AdminController {
     public ResponseEntity updateAdmin(@RequestBody AdminDTO adminDTO){
         return new ResponseEntity(adminService.updateAdmin(adminDTO),HttpStatus.ACCEPTED);
     }
-    @DeleteMapping("/deleteAdmin/{empID}")
+    @DeleteMapping("/deleteAdmin/{adminID}")
     public ResponseEntity deleteAdmin(@PathVariable int adminID){
         ResponseEntity res = adminService.deleteAdmin(adminID);
         return new ResponseEntity(res, HttpStatus.BAD_REQUEST);
