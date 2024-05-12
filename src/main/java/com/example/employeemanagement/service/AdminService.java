@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public class AdminService {
     @Autowired
     private ResponseDTO responseDTO;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public ResponseEntity saveAdmin(AdminDTO adminDTO){
         try{
             if (adminRepo.existsById(adminDTO.getAdminId())) {
@@ -34,6 +38,9 @@ public class AdminService {
                 responseDTO.setContent(adminDTO);
                 return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
             } else {
+                // Encrypt the password before saving
+                String encryptedPassword = this.passwordEncoder.encode(adminDTO.getPassword());
+                adminDTO.setPassword(encryptedPassword);
                 adminRepo.save(modelMapper.map(adminDTO, Admin.class));
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");

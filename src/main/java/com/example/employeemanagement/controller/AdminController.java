@@ -21,14 +21,13 @@ public class AdminController {
 
     @PostMapping(value = "/saveAdmin")
     public ResponseEntity saveAdmin(@RequestBody AdminDTO adminDTO){
-        //  ResponseEntity res=adminService.saveAdmin(adminDTO);
-        //      return res;
         return new ResponseEntity(adminService.saveAdmin(adminDTO), HttpStatus.ACCEPTED);
     }
     @GetMapping("/getAllAdmins")
     public ResponseEntity getAllAdmin(){
         return adminService.getAllAdmin();
     }
+
     @PutMapping(value = "/updateAdmin")
     public ResponseEntity updateAdmin(@RequestBody AdminDTO adminDTO){
         return new ResponseEntity(adminService.updateAdmin(adminDTO),HttpStatus.ACCEPTED);
