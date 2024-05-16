@@ -37,7 +37,7 @@ public class LoginService {
 
     public ResponseEntity signIn(AdminDTO adminDTO) {
         Admin admin = adminRepo.findByUserName(adminDTO.getUserName());
-        log.error("vvvvvvvvvv {}", admin);
+        log.error("vvvvvvvvvv {}", admin); // use logger
 
         if (admin != null && passwordEncoder.matches(adminDTO.getPassword(), admin.getPassword())) {
             // Authentication successful
